@@ -1,5 +1,7 @@
 mod repl;
 mod vm;
+mod utils;
+
 
 use std::io::{stdout, Write};
 use std::process::exit;
@@ -37,6 +39,10 @@ fn main() {
             PrepareResult::PREPARE_SUCCESS => (),
             PrepareResult::PREPARE_UNRECOGNIZED_STATEMENT => {
                 println!("未能识别的句首关键字 {}", input_buffer.buffer);
+                continue;
+            },
+            PrepareResult::PREPARE_SYNTAX_ERROR => {
+                println!("语法错误!");
                 continue;
             }
         }

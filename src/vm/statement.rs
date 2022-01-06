@@ -7,7 +7,8 @@ enum StatementType {
 
 pub enum PrepareResult {
     PREPARE_SUCCESS,
-    PREPARE_UNRECOGNIZED_STATEMENT
+    PREPARE_UNRECOGNIZED_STATEMENT,
+    PREPARE_SYNTAX_ERROR,
 }
 
 pub struct Statement {
@@ -26,6 +27,12 @@ impl Statement {
         match &input_buffer.buffer[0..6] {
             "insert" => {
                 self.stmtType = StatementType::STATEMENT_INSERT;
+                let insert_sql = input_buffer.buffer
+                    .split(" ")
+                    .collect::<Vec<&str>>()
+                    .iter()
+                    .filter(|x| **x != " ");
+                println!("{:?}", insert_sql);
                 PrepareResult::PREPARE_SUCCESS
             },
             "select" => {
